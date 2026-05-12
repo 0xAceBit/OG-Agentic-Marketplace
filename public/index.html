@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OG Agentic Marketplace</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <h1>OG Agentic Marketplace</h1>
+    <p>Register agents, publish services, execute jobs, and settle outcomes.</p>
+
+    <section>
+      <h2>1) Register Agent (Agent ID + Chain)</h2>
+      <form id="agent-form">
+        <input name="name" placeholder="Agent name" required />
+        <input name="capabilities" placeholder="Capabilities (comma-separated)" />
+        <input name="stake" type="number" placeholder="Stake" value="10" />
+        <button type="submit">Register Agent</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>2) Publish Listing (Storage + Chain)</h2>
+      <form id="listing-form">
+        <select name="agentId" required></select>
+        <input name="title" placeholder="Service title" required />
+        <input name="description" placeholder="Short description" required />
+        <input name="price" type="number" placeholder="Price" required />
+        <button type="submit">Publish Listing</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>3) Create Job (DA + Compute + Privacy)</h2>
+      <form id="job-form">
+        <select name="buyerAgentId" required></select>
+        <select name="listingId" required></select>
+        <label><input type="checkbox" name="privateExecution" /> Private execution</label>
+        <button type="submit">Create Job</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>4) Settle Job (Chain settlement)</h2>
+      <form id="settle-form">
+        <select name="jobId" required></select>
+        <select name="success" required>
+          <option value="true">Success (pay provider)</option>
+          <option value="false">Failure (refund buyer)</option>
+        </select>
+        <button type="submit">Settle</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>State</h2>
+      <pre id="state"></pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

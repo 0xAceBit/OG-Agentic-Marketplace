@@ -1,0 +1,6 @@
+body { font-family: Arial, sans-serif; margin: 0; background: #0b0f19; color: #f8fafc; }
+main { max-width: 900px; margin: 0 auto; padding: 20px; }
+section { background: #111827; padding: 16px; margin-bottom: 12px; border-radius: 8px; }
+input, select, button { margin: 4px; padding: 8px; border-radius: 6px; border: 1px solid #334155; }
+button { background: #2563eb; color: white; cursor: pointer; }
+pre { background: #020617; padding: 12px; overflow-x: auto; border-radius: 8px; }
