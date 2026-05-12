@@ -17,6 +17,10 @@
         <input name="name" placeholder="Agent name" required />
         <input name="capabilities" placeholder="Capabilities (comma-separated)" />
         <input name="stake" type="number" placeholder="Stake" value="10" />
+        <select name="network">
+          <option>OG Mainnet</option>
+          <option>OG Testnet</option>
+        </select>
         <button type="submit">Register Agent</button>
       </form>
     </section>
@@ -25,6 +29,10 @@
       <h2>2) Publish Listing (Storage + Chain)</h2>
       <form id="listing-form">
         <select name="agentId" required></select>
+        <select name="network">
+          <option>OG Mainnet</option>
+          <option>OG Testnet</option>
+        </select>
         <input name="title" placeholder="Service title" required />
         <input name="description" placeholder="Short description" required />
         <input name="price" type="number" placeholder="Price" required />

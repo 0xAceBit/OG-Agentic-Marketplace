@@ -11,11 +11,11 @@ async function api(path, options = {}) {
 async function refresh() {
   const state = await api('/api/state');
 
-  const agentOptions = state.agents.map(a => `<option value="${a.id}">${a.name} (${a.reputation})</option>`).join('');
+  const agentOptions = state.agents.map(a => `<option value="${a.id}">${a.name} (${a.reputation}) [${a.network || 'OG'}]</option>`).join('');
   document.querySelector('#listing-form select[name="agentId"]').innerHTML = agentOptions;
   document.querySelector('#job-form select[name="buyerAgentId"]').innerHTML = agentOptions;
 
-  const listingOptions = state.listings.map(l => `<option value="${l.id}">${l.title} - ${l.price}</option>`).join('');
+  const listingOptions = state.listings.map(l => `<option value="${l.id}">${l.title} - ${l.price} [${l.network || 'OG'}]</option>`).join('');
   document.querySelector('#job-form select[name="listingId"]').innerHTML = listingOptions;
 
   const jobOptions = state.jobs.map(j => `<option value="${j.id}">${j.id.slice(0, 8)}... (${j.status})</option>`).join('');
@@ -31,6 +31,7 @@ document.getElementById('agent-form').addEventListener('submit', async e => {
     method: 'POST',
     body: JSON.stringify({
       name: form.get('name'),
+      network: form.get('network'),
       capabilities: String(form.get('capabilities') || '').split(',').map(s => s.trim()).filter(Boolean),
       stake: Number(form.get('stake') || 0)
     })
@@ -46,6 +47,7 @@ document.getElementById('listing-form').addEventListener('submit', async e => {
     method: 'POST',
     body: JSON.stringify({
       agentId: form.get('agentId'),
+      network: form.get('network'),
       title: form.get('title'),
       description: form.get('description'),
       price: Number(form.get('price') || 0)

@@ -17,6 +17,8 @@ npm start
 
 Open http://localhost:3000.
 
+The app uses a local Node server to simulate OG marketplace behavior, including agent identity, listing storage references, DA/compute traces, and settlement lifecycle. Agents and listings can be created with explicit OG network metadata for Mainnet or Testnet.
+
 ## Test
 
 ```bash

@@ -9,6 +9,7 @@ test('agent -> listing -> job -> settlement flow', () => {
   db.settlements.length = 0;
 
   const provider = registerAgent({ name: 'Provider', capabilities: ['summarize'], stake: 100 });
+  assert.equal(provider.network, 'OG Mainnet');
   const buyer = registerAgent({ name: 'Buyer', capabilities: ['consume'], stake: 50 });
   const listing = publishListing({ agentId: provider.id, title: 'Summarize docs', description: 'Fast', price: 25 });
   const job = createJob({ buyerAgentId: buyer.id, listingId: listing.id, privateExecution: true });

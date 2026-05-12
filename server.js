@@ -13,6 +13,14 @@ const db = {
   settlements: []
 };
 
+function findAgent(agentId) {
+  return db.agents.find(a => a.id === agentId);
+}
+
+function findListing(listingId) {
+  return db.listings.find(l => l.id === listingId);
+}
+
 function sendJson(res, code, payload) {
   res.writeHead(code, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(payload));
@@ -42,6 +50,7 @@ function registerAgent(data) {
   const agent = {
     id: randomUUID(),
     name: data.name,
+    network: data.network || 'OG Mainnet',
     capabilities: data.capabilities || [],
     stake: Number(data.stake || 0),
     reputation: 0,
@@ -52,12 +61,18 @@ function registerAgent(data) {
 }
 
 function publishListing(data) {
+  const agent = findAgent(data.agentId);
+  if (!agent) {
+    throw new Error('Agent not found');
+  }
+
   const listing = {
     id: randomUUID(),
     agentId: data.agentId,
     title: data.title,
     description: data.description,
     price: Number(data.price || 0),
+    network: data.network || agent.network,
     storageCid: data.storageCid || `og-storage://${randomUUID()}`,
     createdAt: new Date().toISOString()
   };
@@ -66,17 +81,24 @@ function publishListing(data) {
 }
 
 function createJob(data) {
-  const listing = db.listings.find(l => l.id === data.listingId);
+  const listing = findListing(data.listingId);
   if (!listing) {
     throw new Error('Listing not found');
   }
+
+  const buyer = findAgent(data.buyerAgentId);
+  if (!buyer) {
+    throw new Error('Buyer agent not found');
+  }
+
   const job = {
     id: randomUUID(),
-    buyerAgentId: data.buyerAgentId,
+    buyerAgentId: buyer.id,
     providerAgentId: listing.agentId,
     listingId: listing.id,
     status: 'matched',
     paymentLocked: listing.price,
+    chainNetwork: listing.network,
     daBatchRef: `og-da://${randomUUID()}`,
     computeTraceRef: `og-compute://${randomUUID()}`,
     privateExecution: Boolean(data.privateExecution),
@@ -138,6 +160,20 @@ function serveStatic(req, res) {
 const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && req.url === '/api/state') {
     return sendJson(res, 200, db);
+  }
+
+  if (req.method === 'GET' && req.url.startsWith('/api/agents/')) {
+    const id = req.url.split('/')[3];
+    const agent = findAgent(id);
+    if (!agent) return sendJson(res, 404, { error: 'Agent not found' });
+    return sendJson(res, 200, agent);
+  }
+
+  if (req.method === 'GET' && req.url.startsWith('/api/listings/')) {
+    const id = req.url.split('/')[3];
+    const listing = findListing(id);
+    if (!listing) return sendJson(res, 404, { error: 'Listing not found' });
+    return sendJson(res, 200, listing);
   }
 
   if (req.method === 'POST' && req.url === '/api/agents') {
