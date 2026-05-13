@@ -6,6 +6,31 @@ const { randomUUID } = require('crypto');
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
+// OG Network Configuration
+const OG_CONFIG = {
+  testnet: {
+    chainId: 16602,
+    name: 'OG Galileo Testnet',
+    rpcUrl: 'https://rpc-galileo.0g.ai',
+    blockExplorer: 'https://chainscan-galileo.0g.ai',
+    faucet: 'https://faucet.0g.ai',
+    contracts: {
+      DAEntrance: '0xE75A073dA5bb7b0eC622170Fd268f35E675a957B',
+      Storage: {
+        Flow: '0x22E03a6A89B950F1c82ec5e74F8eCa321a105296',
+        Mine: '0x00A9E9604b0538e06b268Fb297Df333337f9593b',
+        Reward: '0xA97B57b4BdFEA2D0a25e535bd849ad4e6C440A69'
+      }
+    }
+  },
+  mainnet: {
+    chainId: 16600,
+    name: 'OG Mainnet',
+    rpcUrl: 'https://rpc.0g.ai',
+    blockExplorer: 'https://chainscan.0g.ai'
+  }
+};
+
 const db = {
   agents: [],
   listings: [],

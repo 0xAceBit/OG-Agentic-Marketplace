@@ -1,11 +1,14 @@
 {
   "name": "og-agentic-marketplace",
-  "version": "1.0.0",
-  "description": "Agentic marketplace demo app for OG network components",
+  "version": "2.0.0",
+  "description": "Agentic marketplace on OG Network with real web3 integration",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "node --test"
+  },
+  "dependencies": {
+    "ethers": "^6.8.0"
   },
   "license": "MIT"
 }
